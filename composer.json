@@ -1,0 +1,13 @@
+{
+    "name": "CompanySearch",
+    "require": {
+        "doctrine/orm": "2.5.0",
+        "kenjis/codeigniter-ss-twig": "^0.2.1"
+    },
+    "authors": [
+        {
+            "name": "Carlos Oliveira",
+            "email": "carlos.eduardo02@gmail.com"
+        }
+    ]
+}
