@@ -64,10 +64,10 @@ class City extends \Entity\City implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'name', 'state');
+            return array('__isInitialized__', 'id', 'name', 'state', 'companies');
         }
 
-        return array('__isInitialized__', 'id', 'name', 'state');
+        return array('__isInitialized__', 'id', 'name', 'state', 'companies');
     }
 
     /**
@@ -191,6 +191,17 @@ class City extends \Entity\City implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function addCompany(\Entity\Company $company)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCompany', array($company));
+
+        return parent::addCompany($company);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setName($name)
     {
 
@@ -230,6 +241,17 @@ class City extends \Entity\City implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getState', array());
 
         return parent::getState();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCompanies()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompanies', array());
+
+        return parent::getCompanies();
     }
 
 }

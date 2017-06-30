@@ -24,7 +24,7 @@ class User
 	protected $username;
 
 	/**
-	 * @Column(type="string", length=64, nullable=false)
+	 * @Column(type="string", length=255, nullable=false)
 	 */
 	protected $password;
 
@@ -57,7 +57,7 @@ class User
 			throw new \Exception('The username must be set before the password can be hashed.');
 		}
 
-		return hash('sha256', $password . $this->username);
+		return hash('md5', $password);
 	}
 
 	public function setUsername($username)

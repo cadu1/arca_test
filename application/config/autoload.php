@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('doctrine', 'twig', 'session');
+$autoload['libraries'] = array('doctrine', 'twig', 'session', 'form_validation');
 
 /*
 | -------------------------------------------------------------------

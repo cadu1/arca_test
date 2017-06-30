@@ -26,20 +26,15 @@ class Category
      */
     protected $name;
 
-    /**
-     * @OneToMany(targetEntity="Company", mappedBy="category")
+     /**
+     * @var ArrayCollection|Company[]
+     * @ManyToMany(targetEntity="Company", mappedBy="category")
      */
-    protected $companies;
+    protected $company;
 
-    /**
-     * Initialize any collection properties as ArrayCollections
-     *
-     * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html#initializing-collections
-     *
-     */
     public function __construct()
     {
-        $this->companies = new ArrayCollection;
+        $this->company = new ArrayCollection();
     }
 
     /**
@@ -51,18 +46,6 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Add companies
-     *
-     * @param Entity\Company $companies
-     * @return Category
-     */
-    public function addCompany(Company $company)
-    {
-        $this->companies[] = $company;
         return $this;
     }
 
@@ -87,13 +70,35 @@ class Category
     }
 
     /**
-     * Get companies
-     *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection|Company[]
      */
-    public function getCompanies()
+    public function getCompany()
     {
-        return $this->companies;
+        return $this->company;
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function removeCompany(Company $company)
+    {
+        if (false === $this->company->contains($company)) {
+            return;
+        }
+        $this->company->removeElement($company);
+        $company->removeCategory($this);
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function addCompany(Company $company)
+    {
+        if (true === $this->company->contains($company)) {
+            return;
+        }
+        $this->company->add($company);
+        $company->addCategory($this);
     }
 
 }

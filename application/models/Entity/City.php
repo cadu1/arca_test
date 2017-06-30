@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * City Model
  *
@@ -30,6 +32,22 @@ class City
     protected $state;
 
     /**
+     * @OneToMany(targetEntity="Company", mappedBy="city")
+     */
+    protected $companies;
+
+    /**
+     * Initialize any collection properties as ArrayCollections
+     *
+     * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html#initializing-collections
+     *
+     */
+    public function __construct()
+    {
+        $this->companies = new ArrayCollection;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -37,6 +55,18 @@ class City
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add companies
+     *
+     * @param Entity\Company $companies
+     * @return City
+     */
+    public function addCompany(Company $company)
+    {
+        $this->companies[] = $company;
+        return $this;
     }
 
     /**
@@ -81,6 +111,16 @@ class City
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Get companies
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
     }
 
 }

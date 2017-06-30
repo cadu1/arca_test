@@ -28,42 +28,46 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$user = new Entity\User;
-		// $user->setUsername('wildlyinaccurate');
-		// $user->setPassword('Passw0rd');
-		// $user->setEmail('wildlyinaccurate@gmail.com');
-
-		// When you have set up your database, you can persist these entities:
-		// $em = $this->doctrine->em;
-		// $em->persist($group);
-		// $em->persist($user);
-		// $em->flush();
-
-		$data = array(
-			'user' => $user
-		);
-
-		$this->twig->display('welcome/index.html', $data);
+		$this->twig->display('welcome/index.html', []);
 	}
 
 	public function results()
 	{
 		$data['key_word'] = $this->input->post('key_word');
 
-		$criteria = new \Doctrine\Common\Collections\Criteria();
-		$criteria
-			->orWhere($criteria->expr()->contains('title', $data['key_word']))
-			->orWhere($criteria->expr()->contains('address', $data['key_word']))
-			->orWhere($criteria->expr()->contains('zipcode', $data['key_word']));
-		// ->orWhere($criteria->expr()->contains('category', $data['key_word']))
-		// ->orWhere($criteria->expr()->contains('city', $data['key_word']));
+		$this->form_validation->set_rules('key_word', 'Search Phrase', 'required');
 
-		$data['companies'] = $this->em
-			->getRepository('Entity\Company')
-			->matching($criteria)->toArray();
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->twig->display('welcome/index.html', []);
+		}
+		else
+		{
+			$data['companies'] = $this->em->getRepository('Entity\Company')
+				->createQueryBuilder('a')
+				->join('a.city', 'b')
+				->join('a.category', 'c')
+				->orWhere('c.name like :key_word')
+				->orWhere('a.title like :key_word')
+				->orWhere('a.address like :key_word')
+				->orWhere('a.zipcode like :key_word')
+				->orWhere('b.name like :key_word')
 
-		//$data['companies'] = array_map("get_object_vars", $data['companies']);
-echo var_dump($data['companies']);exit;
-		$this->twig->display('welcome/results.html', $data);
+				->setParameter('key_word', "%{$data['key_word']}%")
+				->getQuery()->getResult();
+			$this->twig->display('welcome/results.html', $data);
+		}
+	}
+
+	public function company($id)
+	{
+		//$id = $this->uri->get_segment(3);
+
+		$data['company'] = $this->em->find('Entity\Company', $id);
+// echo '<pre>';
+// echo var_dump($data);
+// exit;
+
+		$this->twig->display('welcome/form_company.html', $data);
 	}
 }

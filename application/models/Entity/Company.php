@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * User Model
  *
@@ -44,26 +46,48 @@ class Company
 	protected $description;
 
 	/**
-     * Many Companies have One Category.
-     * @ManyToOne(targetEntity="Category")
-     * @JoinColumn(name="category_id", referencedColumnName="id")
+     * Many Companies have Many Categories.
+     * @var ArrayCollection|Category[]
+     * @ManyToMany(targetEntity="Category")
+     * @JoinTable(name="company_category",
+     *      joinColumns={@JoinColumn(name="company_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="category_id", referencedColumnName="id")}
+     *      )
      */
     protected $category;
 
 	/**
-	 * Assign the company to a category
+     * Many Companies have One City.
+     * @ManyToOne(targetEntity="City")
+     * @JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    protected $city;
+
+	/**
+     * Initialize any collection properties as ArrayCollections
+     *
+     * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html#initializing-collections
+     *
+     */
+    public function __construct()
+    {
+        $this->category = new ArrayCollection;
+    }
+
+	/**
+	 * Assign the company to a city
 	 *
-	 * @param Entity\UserGroup $group
+	 * @param Entity\City $city
 	 * @return void
 	 */
-	public function setCategory(Category $category)
+	public function setCity(City $city)
 	{
-		$this->category = $category;
+		$this->city = $city;
 
 		// The association must be defined in both directions
-		if ( !$category->getCompanies()->contains($this))
+		if ( !$city->getCompanies()->contains($this))
 		{
-			$category->addCompany($this);
+			$city->addCompany($this);
 		}
 	}
 
@@ -136,4 +160,39 @@ class Company
 	{
 		return $this->category;
 	}
+
+	/**
+	 * Get city
+	 *
+	 * @return Entity\City
+	 */
+	public function getCity()
+	{
+		return $this->city;
+	}
+
+	/**
+     * @param Category $category
+     */
+    public function removeCategory(Category $category)
+    {
+        if (false === $this->category->contains($category)) {
+            return;
+        }
+        $this->category->removeElement($category);
+        $category->removeCompany($this);
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function addCategory(Category $category)
+    {
+        if (true === $this->category->contains($category)) {
+            return;
+        }
+        $this->category->add($category);
+        $category->addCompany($this);
+    }
+
 }

@@ -64,10 +64,10 @@ class Company extends \Entity\Company implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'title', 'phonenumber', 'address', 'zipcode', 'description', 'category');
+            return array('__isInitialized__', 'id', 'title', 'phonenumber', 'address', 'zipcode', 'description', 'category', 'city');
         }
 
-        return array('__isInitialized__', 'id', 'title', 'phonenumber', 'address', 'zipcode', 'description', 'category');
+        return array('__isInitialized__', 'id', 'title', 'phonenumber', 'address', 'zipcode', 'description', 'category', 'city');
     }
 
     /**
@@ -182,6 +182,17 @@ class Company extends \Entity\Company implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategory', array($category));
 
         return parent::setCategory($category);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCity(\Entity\City $city)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCity', array($city));
+
+        return parent::setCity($city);
     }
 
     /**
@@ -318,6 +329,17 @@ class Company extends \Entity\Company implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCategory', array());
 
         return parent::getCategory();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCity()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCity', array());
+
+        return parent::getCity();
     }
 
 }

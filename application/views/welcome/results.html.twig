@@ -13,7 +13,11 @@
 			<h1 class="offset1">Results for "{{ key_word }}"</h1>
 			<ol>
 				{% for company in companies %}
-					<li><h2>{{ company.title }}</h2><h5>in {{ company.title }}</h5></li>
+					{% set categories = [] %}
+					{% for category in company.category %}
+						{% set categories = categories|merge([category.name]) %}
+					{% endfor %}
+					<li><a href="{{base_url()}}welcome/company/{{ company.id }}"><h2>{{ company.title }}</h2><h5>in {{ categories|join(', ') }}</h5></a></li>
 				{% endfor %}
 			</ol>
 		</div>

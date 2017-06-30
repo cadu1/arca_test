@@ -64,10 +64,10 @@ class Category extends \Entity\Category implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'name', 'companies');
+            return array('__isInitialized__', 'id', 'name');
         }
 
-        return array('__isInitialized__', 'id', 'name', 'companies');
+        return array('__isInitialized__', 'id', 'name');
     }
 
     /**
@@ -187,17 +187,6 @@ class Category extends \Entity\Category implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addCompany(\Entity\Company $company)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCompany', array($company));
-
-        return parent::addCompany($company);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -219,17 +208,6 @@ class Category extends \Entity\Category implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', array());
 
         return parent::getName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCompanies()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompanies', array());
-
-        return parent::getCompanies();
     }
 
 }
