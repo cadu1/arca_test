@@ -15,3 +15,5 @@ Run the command bellow after clone:
 `CREATE schema arca_test utf8_general_ci`
 
 php.exe \application\doctrine.php orm:schema-tool:create
+
+php application\doctrine.php orm:generate:proxies

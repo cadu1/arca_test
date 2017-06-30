@@ -43,6 +43,30 @@ class Company
 	 */
 	protected $description;
 
+	/**
+     * Many Companies have One Category.
+     * @ManyToOne(targetEntity="Category")
+     * @JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category;
+
+	/**
+	 * Assign the company to a category
+	 *
+	 * @param Entity\UserGroup $group
+	 * @return void
+	 */
+	public function setCategory(Category $category)
+	{
+		$this->category = $category;
+
+		// The association must be defined in both directions
+		if ( !$category->getCompanies()->contains($this))
+		{
+			$category->addCompany($this);
+		}
+	}
+
 	public function setTitle($title)
 	{
 		$this->title = $title;
@@ -103,4 +127,13 @@ class Company
 		return $this->description;
 	}
 
+	/**
+	 * Get category
+	 *
+	 * @return Entity\Category
+	 */
+	public function getCategory()
+	{
+		return $this->category;
+	}
 }

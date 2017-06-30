@@ -1,0 +1,17 @@
+{% extends 'template/template.html.twig' %}
+
+{% block content %}
+	<div id="infoMessage">{{ message }}</div>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4" align="center">
+			<h1 class="offset1">Business Finder</h1>
+				{{ form_open('welcome/results') }}
+				<div class="form-group">
+					<input type="text" class="form-control" name="key_word" placeholder="What are you looking for?">
+				</div>
+				<button type="submit" class="btn btn-default">Search</button>
+				{{ form_close() }}
+		</div>
+	</div>
+	{% endblock %}

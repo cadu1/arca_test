@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Category Model
  *
@@ -25,6 +27,22 @@ class Category
     protected $name;
 
     /**
+     * @OneToMany(targetEntity="Company", mappedBy="category")
+     */
+    protected $companies;
+
+    /**
+     * Initialize any collection properties as ArrayCollections
+     *
+     * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html#initializing-collections
+     *
+     */
+    public function __construct()
+    {
+        $this->companies = new ArrayCollection;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -33,6 +51,18 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Add companies
+     *
+     * @param Entity\Company $companies
+     * @return Category
+     */
+    public function addCompany(Company $company)
+    {
+        $this->companies[] = $company;
         return $this;
     }
 
@@ -55,4 +85,15 @@ class Category
     {
         return $this->name;
     }
+
+    /**
+     * Get companies
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
+    }
+
 }
