@@ -18,3 +18,5 @@ Run the command bellow after clone:
 
 `php application\doctrine.php orm:schema-tool:create`
 `php application\doctrine.php orm:generate:proxies`
+
+- Need a apache server to process the php files
