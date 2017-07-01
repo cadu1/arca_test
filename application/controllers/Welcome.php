@@ -3,12 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-	private $em;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->em = $this->doctrine->em;
+
+		$this->load->model('company_model');
 	} 
 
 	/**
@@ -33,40 +32,20 @@ class Welcome extends CI_Controller {
 
 	public function results()
 	{
-		$data['key_word'] = $this->input->post('key_word');
+		$data['key_word'] = $_GET['key_word'];
 
-		$this->form_validation->set_rules('key_word', 'Search Phrase', 'required');
+		if (empty($data['key_word'])) {
+			redirect('/welcome/index', 'refresh');
+		} else {
+			$data['companies'] = $this->company_model->filter($data['key_word']);
 
-		if ($this->form_validation->run() == FALSE)
-		{
-			$this->twig->display('welcome/index.html', []);
-		}
-		else
-		{
-			$data['companies'] = $this->em->getRepository('Entity\Company')
-				->createQueryBuilder('a')
-				->join('a.city', 'b')
-				->join('a.category', 'c')
-				->orWhere('c.name like :key_word')
-				->orWhere('a.title like :key_word')
-				->orWhere('a.address like :key_word')
-				->orWhere('a.zipcode like :key_word')
-				->orWhere('b.name like :key_word')
-
-				->setParameter('key_word', "%{$data['key_word']}%")
-				->getQuery()->getResult();
 			$this->twig->display('welcome/results.html', $data);
 		}
 	}
 
 	public function company($id)
 	{
-		//$id = $this->uri->get_segment(3);
-
-		$data['company'] = $this->em->find('Entity\Company', $id);
-// echo '<pre>';
-// echo var_dump($data);
-// exit;
+		$data['company'] = $this->company_model->getCompany($id);
 
 		$this->twig->display('welcome/form_company.html', $data);
 	}

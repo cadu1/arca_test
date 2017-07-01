@@ -176,17 +176,6 @@ class Company extends \Entity\Company implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setCategory(\Entity\Category $category)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategory', array($category));
-
-        return parent::setCategory($category);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setCity(\Entity\City $city)
     {
 
@@ -340,6 +329,28 @@ class Company extends \Entity\Company implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCity', array());
 
         return parent::getCity();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeCategory(\Entity\Category $category)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeCategory', array($category));
+
+        return parent::removeCategory($category);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addCategory(\Entity\Category $category)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCategory', array($category));
+
+        return parent::addCategory($category);
     }
 
 }

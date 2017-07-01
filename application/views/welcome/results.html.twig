@@ -1,23 +1,16 @@
 {% extends 'template/template.html.twig' %}
 
 {% block content %}
-	<div id="infoMessage">{{ message }}</div>
-
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4" align="center">
-			<h1 class="offset1">Business Finder</h1>
-		</div>
-	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="offset1">Results for "{{ key_word }}"</h1>
+			<h2 class="offset1">Results for "{{ key_word }}"</h2>
 			<ol>
 				{% for company in companies %}
 					{% set categories = [] %}
 					{% for category in company.category %}
 						{% set categories = categories|merge([category.name]) %}
 					{% endfor %}
-					<li><a href="{{base_url()}}welcome/company/{{ company.id }}"><h2>{{ company.title }}</h2><h5>in {{ categories|join(', ') }}</h5></a></li>
+					<li style="font-size:25px"><a href="{{base_url()}}welcome/company/{{ company.id }}">{{ company.title }}</a><br><span style="font-size:16px">in {{ categories|join(', ') }}</span></li>
 				{% endfor %}
 			</ol>
 		</div>

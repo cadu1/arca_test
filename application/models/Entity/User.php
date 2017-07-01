@@ -29,11 +29,6 @@ class User
 	protected $password;
 
 	/**
-	 * @Column(type="string", length=255, unique=true, nullable=false)
-	 */
-	protected $email;
-
-	/**
 	 * Encrypt the password before we store it
 	 *
 	 * @param	string	$password
@@ -66,12 +61,6 @@ class User
 		return $this;
 	}
 
-	public function setEmail($email)
-	{
-		$this->email = $email;
-		return $this;
-	}
-
 	public function getId()
 	{
 		return $this->id;
@@ -80,11 +69,6 @@ class User
 	public function getUsername()
 	{
 		return $this->username;
-	}
-
-	public function getEmail()
-	{
-		return $this->email;
 	}
 
 	public function getPassword()
